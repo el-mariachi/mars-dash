@@ -1,0 +1,53 @@
+.sol {
+    color: #e6a05f;
+    font-size: 1.8em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 18px;
+}
+
+.sol__number {
+    margin: 0;
+}
+
+.sol__number::before {
+    content: 'sol: ';
+    font-weight: normal;
+    color: #e1c8aa;
+}
+
+.sol__button {
+    background: url(../../images/BACK_16x22s.svg) no-repeat center;
+    background-size: 60%;
+    width: 36px;
+    height: 36px;
+    opacity: 0.4;
+}
+
+.sol__next {
+    transform: rotate(180deg);
+}
+
+.sol--active {
+    opacity: 1;
+}
+
+@media screen and (orientation: landscape) {
+    .sol {
+        position: static;
+    }
+}
+
+@media screen and (orientation: portrait) and (min-width: 760px) {
+    .sol {
+        position: static;
+    }
+}
+
+@media screen and (min-width: 1020px) {
+    .sol {
+        position: static;
+    }
+}

@@ -1,0 +1,17 @@
+.footer {
+    display: flex;
+    background: #a05555;
+    box-sizing: border-box;
+    height: 40px;
+    border-top: 2px solid #e1c8aa;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.footer--page-index {
+    background-image: url(../../images/Leaf_color.svg);
+    background-repeat: no-repeat;
+    background-position: right center;
+    justify-content: flex-end;
+    padding-right: 48px;
+}

@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/', express.static(path.join(__dirname, '../public')));
+app.use('/static', express.static(path.join(__dirname, '../public/static')));
 
 // your API calls
 
@@ -27,7 +28,7 @@ app.get('/apod', async (req, res) => {
     }
 });
 
-// app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 let ims = probe('https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/03003/opgs/edr/ncam/NRB_664084503EDR_S0850000NCAM00594M_.JPG');
 ims.then(res => {

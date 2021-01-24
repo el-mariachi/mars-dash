@@ -1,0 +1,50 @@
+.button {
+    box-sizing: border-box;
+    border: 2px solid #e1c8aa;
+    border-radius: 6px;
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.button--type-back {
+    width: 36px;
+    height: 44px;
+    background-image: url(../../images/BACK_16x22s.svg);
+    background-size: 60%;
+    margin-right: 18px;
+}
+
+.button--type-showinfo,
+.button--type-closeinfo  {
+    width: 36px;
+    height: 36px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    margin-left: 9px;
+    display: none;
+}
+
+.button--type-showinfo {
+    background-image: url(../../images/i_36s.svg);
+}
+
+.button--type-closeinfo {
+    background-image: url(../../images/ok_52x36s.svg);
+}
+
+@media screen and (orientation: landscape) {
+    .button--type-showinfo,
+    .button--type-closeinfo {
+        display: block;
+    }
+}
+
+@media screen and (orientation: portrait) and (min-width: 760px) {
+
+}
+
+@media screen and (min-width: 1020px) {
+
+}

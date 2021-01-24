@@ -1,0 +1,30 @@
+@import './components/header.css';
+@import './components/content.css';
+@import './components/footer.css';
+@import './components/button.css';
+@import './components/apod.css';
+@import './components/sol.css';
+@import './components/rovers.css';
+@import './components/info.css';
+
+
+body {
+    font-size: 62.5%;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    position: relative;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.outline {
+    position: absolute;
+    left: -99999em;
+}

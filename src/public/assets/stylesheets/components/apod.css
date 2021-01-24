@@ -1,0 +1,7 @@
+.apod__logo {
+    font-size: 1.4em;
+    color: #e1c8aa;
+    padding-left: 74px;
+    background: url(../../images/APOD_58x22s.svg) no-repeat left center;
+    background-size: 30%;
+}

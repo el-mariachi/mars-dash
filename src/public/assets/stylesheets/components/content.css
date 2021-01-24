@@ -1,0 +1,17 @@
+.content {
+    display: flex;
+    flex: 1;
+    box-sizing: border-box;
+    background-color: #5a5555;
+}
+
+.content--page-index {
+   height: calc(100vh - 124px);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.content__inner {
+    
+}

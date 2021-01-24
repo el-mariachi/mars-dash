@@ -1,0 +1,56 @@
+/* BASE + Smartpone */
+
+.header {
+    display: flex;
+    background: #a05555;
+    box-sizing: border-box;
+    border-bottom: 2px solid #e1c8aa;
+    align-items: center;
+    padding: 0 18px;
+}
+
+.header--page-index,
+.header--page-rover {
+    height: 80px;
+}
+
+.header--page-apod {
+    height: 58px;
+}
+
+.header__logo {
+    width: 284px;
+    height: 42px;
+    background: url(../../images/Logo_284x42m.svg) no-repeat;
+    margin: 0 auto;
+}
+
+.header--page-rover {
+    background-position: right 6px top 15px;
+    background-repeat: no-repeat;
+    background-size: auto 22px;
+    background-origin: content-box;
+    justify-content: space-between;
+}
+
+.header--rover-opportunity {
+    background-image: url(../../images/Opportunity_152x22s.svg);
+}
+
+@media screen and (orientation: landscape) {
+    .header--page-rover {
+        height: 58px;
+        background-position: center 18px;
+    }
+}
+
+@media screen and (orientation: portrait) and (min-width: 760px) {
+    .header--page-rover {
+        height: 58px;
+        background-position: center 18px;
+    }
+}
+
+@media screen and (min-width: 1020px) {
+
+}

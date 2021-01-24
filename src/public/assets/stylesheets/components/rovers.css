@@ -1,0 +1,129 @@
+.rovers {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.rovers__item {
+    border-bottom: 1px solid #e1c8aa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+
+.rovers__item:last-child {
+    border: none;
+}
+
+.rovers__inner {
+    width: 284px;
+    height: 22vh;
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 0;
+}
+
+.rovers__data {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 38%;
+}
+
+.rovers__header {
+    display: flex;
+}
+
+.rovers__title {
+    color: transparent;
+    margin: 0;
+    width: 100%;
+}
+
+.rovers--rover-curiosity .rovers__title {
+    background: url(../../images/Curiosity_152x22sl.svg) no-repeat;
+}
+
+.rovers--rover-opportunity .rovers__title {
+    background: url(../../images/Opportunity_152x22s.svg) no-repeat;
+}
+
+.rovers--rover-spirit .rovers__title {
+    background: url(../../images/Spirit_152x22sl.svg) no-repeat;
+}
+
+.rovers__info {
+}
+
+.rovers__preview {
+    width: 58%;
+    /* height: 125px; */
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 6px;
+}
+
+.rovers--rover-curiosity .rovers__preview {
+    background-image: url(../../images/curiosity.jpg);
+}
+
+.rovers--rover-opportunity .rovers__preview {
+    background-image: url(../../images/opportunity.jpg);
+}
+
+.rovers--rover-spirit .rovers__preview {
+    background-image: url(../../images/spirit.jpg);
+}
+
+@media screen and (orientation: landscape) {
+    .rovers {
+        flex-direction: row;
+    }
+    .rovers__item {
+        border-bottom: none;
+        border-right: 1px solid #e1c8aa;
+        width: auto;
+    }
+
+    .rovers__inner {
+        flex-direction: column;
+        width: 29vw;
+        height: auto;
+        padding: 18px 2vw;
+        position: relative;
+    }
+
+    .rovers__data {
+        width: 100%;
+        height: 51vh;
+    }
+
+    .rovers__preview {
+        display: none;
+        position: absolute;
+        bottom: 18px;
+        height: calc(100% - 86px);
+        background-origin: content-box;
+        background-size: cover;
+        width: 29vw;
+    }
+}
+
+@media screen and (orientation: portrait) and (min-width: 760px) {
+    .rovers__inner {
+        width: 50vw;
+        height: 20vh;
+    }
+
+    .rovers__data {
+        
+    }
+}
+
+@media screen and (min-width: 1020px) {
+
+}

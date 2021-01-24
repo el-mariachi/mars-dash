@@ -2,7 +2,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #e6a05f;
     display: flex;
     flex-direction: column;
@@ -40,21 +40,28 @@
     content: 'Status: ';
 }
 
+.info__monthday {
+    width: 100%;
+    text-align: right;
+}
+
 .info__month::after {
     content: '-';
 }
 
+@media screen and (min-width: 400px) {
+    .info {
+        font-size: 1.5em;
+    }
+}
+
 @media screen and (orientation: landscape) {
     .info__item {
-        margin-bottom: 1em;
+        margin-bottom: 0.5em;
     }
 
     .info__item:last-child {
         margin-bottom: 2em;
-    }
-
-    .info__year::after {
-        content: '-';
     }
 }
 
@@ -62,14 +69,48 @@
     .info {
         font-size: 1.6em;
     }
+
+    .info__item {
+        margin-bottom: 1em;
+    }
+
+    .info__item:last-child {
+        margin-bottom: 0;
+    }
 }
 
 @media screen and (orientation: landscape) and (min-width: 650px) {
     .info {
         font-size: 1.6em;
     }
+
+    .info__item {
+        margin-bottom: 1em;
+    }
+
+    .info__monthday {
+        width: auto;
+    }
+
+    .info__year::after {
+        content: '-';
+    }
+
+    .info__monthday {
+        width: auto;
+    }
 }
 
 @media screen and (min-width: 1020px) {
+    .info__item {
+        margin-bottom: 0.5em;
+    }
 
+    .info__item:last-child {
+        margin-bottom: 0.5em;
+    }
+
+    .info__monthday {
+        width: auto;
+    }
 }

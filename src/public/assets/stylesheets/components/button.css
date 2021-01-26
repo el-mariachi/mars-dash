@@ -15,6 +15,11 @@
     margin-right: 18px;
 }
 
+.button--type-back:hover {
+    border-color: #e6a05f;
+    background-image: url(../../images/BACK_16x22m.svg);
+}
+
 .button--type-showinfo,
 .button--type-closeinfo  {
     width: 36px;

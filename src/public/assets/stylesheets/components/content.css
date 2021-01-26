@@ -1,17 +1,41 @@
 .content {
-    display: flex;
     flex: 1;
     box-sizing: border-box;
     background-color: #5a5555;
+    
+}
+
+.content--page-index,
+.content--page-rover {
+   height: calc(100vh - 124px);
 }
 
 .content--page-index {
-   height: calc(100vh - 124px);
-   display: flex;
-   justify-content: center;
-   align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content--page-rover {
+    overflow-y: auto;
 }
 
 .content__inner {
-    
+    height: max-content;
+}
+
+@media screen and (orientation: landscape) {
+    .content--page-rover {
+        height: calc(100vh - 102px);
+        box-sizing: border-box;
+        padding: 9px 0;
+    }
+}
+
+@media screen and (orientation: portrait) and (min-width: 760px) {
+
+}
+
+@media screen and (min-width: 1020px) {
+
 }

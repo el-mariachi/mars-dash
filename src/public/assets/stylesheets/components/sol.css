@@ -19,7 +19,9 @@
 }
 
 .sol__button {
-    background: url(../../images/BACK_16x22s.svg) no-repeat center;
+    background-image: url(../../images/BACK_16x22s.svg);
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: 60%;
     width: 36px;
     height: 36px;
@@ -32,6 +34,10 @@
 
 .sol--active {
     opacity: 1;
+}
+
+.sol--active:hover {
+    background-image: url(../../images/BACK_16x22m.svg);
 }
 
 @media screen and (orientation: landscape) {

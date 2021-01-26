@@ -1,0 +1,7 @@
+.turn {
+    width: 44px;
+    height: 44px;
+    background: url(../../images/turn_s.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+}

@@ -43,27 +43,27 @@
 }
 
 .info__launched::before {
-    content: 'Launched: ';
+    content: 'Launched:\00A0';
 }
 
 .info__landed::before {
-    content: 'Landed: ';
+    content: 'Landed:\00A0';
 }
 
 .info__status::before {
-    content: 'Status: ';
+    content: 'Status:\00A0';
 }
 
 .info__id::before {
-    content: 'id: ';
+    content: 'id:\00A0';
 }
 
 .info__cam::before {
-    content: 'cam: ';
+    content: 'cam:\00A0';
 }
 
 .info__sol::before {
-    content: 'sol: ';
+    content: 'sol:\00A0';
 }
 
 .info__monthday {

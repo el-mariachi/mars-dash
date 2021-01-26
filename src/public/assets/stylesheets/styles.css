@@ -7,6 +7,8 @@
 @import './components/rovers.css';
 @import './components/info.css';
 @import './components/thumbnails.css';
+@import './components/bigimage.css';
+@import './components/turn.css';
 
 
 body {

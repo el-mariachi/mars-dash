@@ -15,9 +15,22 @@
     margin-right: 18px;
 }
 
+.button--type-close {
+    width: 36px;
+    height: 44px;
+    background-color: #5a5555;
+    background-image: url(../../images/x_s_36.svg);
+    background-size: 60%;
+}
+
 .button--type-back:hover {
     border-color: #e6a05f;
     background-image: url(../../images/BACK_16x22m.svg);
+}
+
+.button--type-close:hover {
+    border-color: #e6a05f;
+    background-image: url(../../images/x_m_36.svg);
 }
 
 .button--type-showinfo,

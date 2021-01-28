@@ -19,23 +19,56 @@ app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use('/static', express.static(path.join(__dirname, '../public/static')));
 
+// Memoization helpers
+const generateKey = args => {
+    return args.map(arg => {
+        if (typeof arg === 'object') {
+            return Object.keys(arg).map(key => `${key}<${generateKey([arg[key]])}>`).join(';');
+        } else {
+            return `${typeof arg}<${arg}>`;
+        }
+
+    }).join(',');
+}
+
+function memoize(fn, timeout) {
+    const cache = {};
+
+    return function (...args) {
+        const key = generateKey(args);
+        const result = cache[key];
+
+        if (typeof result === 'undefined' || Date.now() > result.expire) {
+            console.log('Execute fn');
+            return Promise.resolve(fn(...args)).then(value => {
+                cache[key] = { value, expire: Date.now() + timeout };
+                return value;
+            });
+        }
+
+        console.log('From cache');
+
+        return Promise.resolve(result.value);
+    };
+}
+
 const getManifestFor = async rover => {
     let manifests = {};
 
     let manifest = manifests[rover];
     if (manifest === undefined) {
-        console.log('fetching manifest from NASA');
         let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${process.env.API_KEY}`);
         manifest = manifests[rover] = await response.json();
     }
-    console.log('returning manifest');
     return manifest;
 };
+
+const getCachedManifest = memoize(getManifestFor, 1000 * 60 * 5); // timeout == 5 min
 
 const allManifests = async () => {
     const mans = Promise.all(rovers.map(async (rover) => {
         try {
-            const man = await getManifestFor(rover);
+            const man = await getCachedManifest(rover);
             delete man.photo_manifest.photos;
             return man.photo_manifest;
         } catch (err) {

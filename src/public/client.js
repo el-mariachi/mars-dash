@@ -138,7 +138,9 @@ const contentForPage = page => {
             };
             break;
         case 'rover':
-            return state => { };
+            return state => {
+                return `<h1>${state.get('rover')}</h1>`;
+            };
             break;
         default:
             break;

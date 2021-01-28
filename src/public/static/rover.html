@@ -12,11 +12,11 @@
 <body>
     <div id="root">
         <header class="header header--page-rover header--rover-opportunity">
-            <button class="button button--type-back"></button>
+            <a href="/" class="button button--type-back"></a>
             <div class="sol">
-                <span class="sol__button sol__prev sol--active"></span>
+                <a href="/opprtunity?sol=3003" class="button sol__button sol__prev"></a>
                 <span class="sol__number">3004</span>
-                <span class="sol__button sol__next"></span>
+                <a href="#" class="button sol__button sol__next button--disabled"></a>
             </div>
         </header>
         <main class="content content--page-rover">
@@ -29,7 +29,8 @@
                             <li class="info__item"><span class="info__sol">3004</span></li>
                         </ul>
                         <div class="thumbnails__frame"><img class="thumbnail" src="../assets/images/vertical.jpg"
-                                alt="Image 102694">
+                                alt="Image 102694" data-id="102694" data-earth-date="2011-02-15"
+                                data-cameraName="Rear Hazard Avoidance Camera">
                         </div>
                     </div>
                 </li>
@@ -135,7 +136,7 @@
             </ul>
         </main>
         <footer class="footer footer--page-rover"></footer>
-        <div class="bigimage bigimage--visible bigimage--horizontal">
+        <div class="bigimage bigimage--horizontal">
             <div class="bigimage__frame">
                 <button class="bigimage__close button button--type-close"></button>
                 <div class="bigimage__turn turn"></div>
@@ -143,7 +144,7 @@
             <ul class="bigimage__info">
                 <li class="info__item"><span class="info__id">102694</span></li>
                 <li class="info__item"><span class="info__cam">Rear Hazard Avoidance Camera</span></li>
-                <li class="info__item"><span class="info__sol">3004</span></li>
+                <li class="info__item"><span class="info__date">2021-01-14</span></li>
             </ul>
         </div>
     </div>

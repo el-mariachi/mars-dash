@@ -25,15 +25,10 @@
     background-size: 60%;
     width: 36px;
     height: 36px;
-    opacity: 0.4;
 }
 
 .sol__next {
     transform: rotate(180deg);
-}
-
-.sol--active {
-    opacity: 1;
 }
 
 .sol--active:hover {

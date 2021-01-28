@@ -19,7 +19,8 @@
 .info__status::before,
 .info__id::before,
 .info__cam::before,
-.info__sol::before {
+.info__sol::before,
+.info__date::before {
     color: #e1c8aa;
     margin-right: auto;
 }
@@ -29,7 +30,8 @@
 .info__status,
 .info__id,
 .info__cam,
-.info__sol {
+.info__sol,
+.info__date {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -38,7 +40,8 @@
 
 .info__id,
 .info__cam,
-.info__sol {
+.info__sol,
+.info__date {
     margin-top: 0.5em;
 }
 
@@ -66,6 +69,10 @@
     content: 'sol:\00A0';
 }
 
+.info__date::before {
+    content: 'date:\00A0';
+}
+
 .info__monthday {
     width: 100%;
     text-align: right;
@@ -88,7 +95,8 @@
     
     .info__id,
     .info__cam,
-    .info__sol {
+    .info__sol,
+    .info__date {
         margin-top: 0;
     }
 
@@ -144,5 +152,9 @@
 
     .info__monthday {
         width: auto;
+    }
+
+    .info__year::after {
+        content: '-';
     }
 }

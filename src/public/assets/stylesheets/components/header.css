@@ -33,8 +33,16 @@
     justify-content: space-between;
 }
 
+.header--rover-curiosity {
+    background-image: url(../../images/Curiosity_152x22sc.svg);
+}
+
 .header--rover-opportunity {
     background-image: url(../../images/Opportunity_152x22s.svg);
+}
+
+.header--rover-spirit {
+    background-image: url(../../images/Spirit_152x22sc.svg);
 }
 
 @media screen and (orientation: landscape) {

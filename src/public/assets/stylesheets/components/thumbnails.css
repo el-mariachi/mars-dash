@@ -5,14 +5,12 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    /* width: 100vw; */
 }
 
 .thumbnails__item {
     border-bottom: 1px solid #e1c8aa;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     width: 320px;
 }
 
@@ -31,9 +29,6 @@
 
 .thumbnails__frame {
     width: 61%;
-    /* background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center; */
     border-radius: 6px;
     overflow: hidden;
     height: 100%;
@@ -107,7 +102,6 @@
     }
 
     .thumbnail {
-        /* width: auto; */
         height: 100%;
         max-height: none;
     }
@@ -129,8 +123,4 @@
     .thumbnails__item:last-child {
         border-bottom: none;
     }
-}
-
-@media screen and (min-width: 1020px) {
-
 }

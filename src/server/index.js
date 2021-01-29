@@ -7,9 +7,6 @@ const { List } = require('immutable');
 
 const rovers = List(['curiosity', 'opportunity', 'spirit']);
 
-// TODO not sure about this one
-const probe = require('probe-image-size');
-
 const app = express();
 const port = 3000;
 const photoLimit = 25;
@@ -18,9 +15,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/', express.static(path.join(__dirname, '../public')));
-app.use('/static', express.static(path.join(__dirname, '../public/static')));
+// app.use('/static', express.static(path.join(__dirname, '../public/static')));
 
-// Memoization helpers
+// Memoization helper
 const generateKey = args => {
     return args.map(arg => {
         if (typeof arg === 'object') {
@@ -47,15 +44,13 @@ function memoize(fn, timeout) {
         const result = cache[key];
 
         if (typeof result === 'undefined' || Date.now() > result.expire) {
-            console.log('Execute fn');
+            // console.log('Execute fn');
             return Promise.resolve(fn(...args)).then(value => {
                 cache[key] = { value, expire: Date.now() + timeout };
                 return value;
             });
         }
-
-        console.log('From cache');
-
+        // console.log('From cache');
         return Promise.resolve(result.value);
     };
 }
@@ -65,7 +60,7 @@ const getManifestFor = async rover => {
     const manifest = await response.json();
     return manifest;
 };
-
+// memoized getManifestFor
 const getCachedManifest = memoize(getManifestFor, 1000 * 60 * 5); // timeout == 5 min
 
 /**
@@ -87,7 +82,6 @@ const allManifests = async () => {
     return mans;
 };
 
-// returns Promise
 /**
  * Makes an API call to get photo data from NASA.
  * Reurrns a promise that resolves to an object with photo data sorted by id in reverse order
@@ -119,7 +113,6 @@ const getCachedImages = memoize(getImagesForRover, 1000 * 60 * 2); // timeout ==
  */
 app.get('/index', (req, res) => {
     // get manifests
-    console.log(req);
     allManifests().then(manifests => {
         res.set('Access-Control-Expose-Headers', 'Location');
         res.location('/');
@@ -150,17 +143,6 @@ app.get('/:roverName/:sol?/:skip?', async (req, res) => {
         getCachedImages(roverName, sol, skip).then(data => {
             res.json(Object.assign(data, { header }));
         });
-    }
-});
-
-// example API call
-app.get('/apod', async (req, res) => {
-    try {
-        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
-            .then(res => res.json());
-        res.send({ image });
-    } catch (err) {
-        console.log('error:', err);
     }
 });
 

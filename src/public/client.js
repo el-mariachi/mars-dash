@@ -25,7 +25,6 @@ const updateStore = (state, newState) => {
 };
 
 
-// render is not a pure function
 const render = async (root, state) => {
     root.innerHTML = App(state)
 };
@@ -34,15 +33,20 @@ const render = async (root, state) => {
 // create content
 
 /**
+ * Used to activate/deactivate sol selection buttons in the header. 
  * If param is false returns classname for making button inactive
  * @param {bool} param 
- * @returns {string} 
+ * @returns {string} Class name for the button
  */
 const buttonDisabled = (param) => {
     return param ? '' : 'button--disabled';
 };
 
-
+/**
+ * Generates HTML for sol selector 
+ * @param {*} state Application state object
+ * @returns {string} HTML
+ */
 const Sol = state => {
     const header = state.get('header');
     const rover = state.get('rover');
@@ -57,6 +61,11 @@ const Sol = state => {
 </div>`;
 };
 
+/**
+ * Returns a function for generanting header HTML depending upon type of page
+ * @param {string} page One of 'index' or 'rover'. Can be expanded.
+ * @returns {function}
+ */
 const headerForPage = page => {
     switch (page) {
         case 'index':
@@ -65,7 +74,6 @@ const headerForPage = page => {
                     <div class="logo header__logo"></div>
                 </header>`;
             };
-            break;
         case 'rover':
             return state => {
                 return `<header class="header header--page-rover header--rover-${state.get('rover')}">
@@ -73,12 +81,15 @@ const headerForPage = page => {
                 ${Sol(state)}
             </header>`;
             };
-            break;
         default:
-            break;
+            return;
     }
 };
-
+/**
+ * Used for formatting date and month output
+ * @param {number} number 
+ * @returns {string} The input number padded with 0 if needed
+ */
 const addLeadingZero = number => {
     if (number < 10) {
         return `0${number}`;
@@ -86,6 +97,11 @@ const addLeadingZero = number => {
     return `${number}`;
 };
 
+/**
+ * Generates HTML for index page content area
+ * @param {*} state Application state object
+ * @returns {string} HTML
+ */
 const Rovers = state => {
     let manifests = state.get('manifests');
 
@@ -127,6 +143,11 @@ const Rovers = state => {
     });
 };
 
+/**
+ * Generates HTML for rover page image gallery
+ * @param {*} state Application state object
+ * @returns {string} HTML
+ */
 const Thumbnails = state => {
     if (state.get('photos').size === 0) {
         return Immutable.List([`<li class="thumbnails__item thumbnails--load-earlier">
@@ -156,8 +177,12 @@ const Thumbnails = state => {
     }), earlier);
 };
 
+/**
+ * Returns a function for generanting content area HTML depending upon type of page
+ * @param {string} page One of 'index' or 'rover'. Can be expanded.
+ * @returns {function}
+ */
 const contentForPage = page => {
-
     switch (page) {
         case 'index':
             return state => {
@@ -167,7 +192,6 @@ const contentForPage = page => {
                 </ul>
                 </main>`;
             };
-            break;
         case 'rover':
             return state => {
                 return `<main class="content content--page-rover">
@@ -176,39 +200,49 @@ const contentForPage = page => {
                     </ul>
                 </main>`;
             };
-            break;
         default:
-            break;
+            return;
     }
 };
 
+/**
+ * Returns a function for generanting footer HTML depending upon type of page
+ * @param {string} page One of 'index' or 'rover'. Can be expanded.
+ * @returns {function}
+ */
 const footerForPage = page => {
+    // footer could be generated statically
+    // function is used for consistency 
     switch (page) {
         case 'index':
             return state => {
-                // return `<footer class="footer footer--page-index"><span class="apod__logo">Astronomy Picture<br>Of The Day</span></footer>`;
                 return `<footer class="footer"></footer>`;
             };
-            break;
         case 'rover':
             return state => {
                 return `<footer class="footer"></footer>`;
             };
-            break;
-
         default:
-            break;
+            return;
     }
 };
 
+/**
+ * Returns a function for generanting full screen image HTML depending upon type of page
+ * @param {string} page One of 'index' or 'rover'. Can be expanded.
+ * @returns {function}
+ */
 const bigImageForPage = page => {
     switch (page) {
         case 'index':
+            // no full screen image on index page so
+            // return a function that returns an empty string
             return state => {
                 return '';
             };
-            break;
         case 'rover':
+            // state is not used here
+            // using function for consistency
             return state => {
                 return `<div id="bigimage" class="bigimage">
                 <div class="bigimage__frame">
@@ -222,13 +256,12 @@ const bigImageForPage = page => {
                 </ul>
             </div>`;
             };
-            break;
-
         default:
-            break;
+            return;
     }
 };
 
+// 'main' function
 const App = (state) => {
     const page = state.get('page');
     const Header = headerForPage(page);
@@ -243,6 +276,10 @@ const App = (state) => {
     `
 };
 
+/**
+ * Photo thumbnail click handler for rover page
+ * @param {HTMLImgElement} image The clicked thumbnail
+ */
 const showBigImage = (image) => {
     const destination = document.getElementById('bigimage');
     if (!destination) {
@@ -267,6 +304,10 @@ const showBigImage = (image) => {
     frame.classList.add('bigimage--visible');
 };
 
+/**
+ * Full screen image close button click handler
+ * @param {HTMLButtonElement} button The clicked button
+ */
 const closeBigImage = button => {
     const frame = button.parentNode;
     frame.classList.remove('bigimage--visible');
@@ -278,7 +319,10 @@ const closeBigImage = button => {
     frame.closest('#bigimage').classList.remove('bigimage--open');
 };
 
-// handles most click events
+/**
+ * Major click handler. Calls other functions depending on click target
+ * @param {event} event Click event
+ */
 const clickHandler = (event) => {
     event.preventDefault(); // you can check out anytime you like but you can never leave
     const target = event.target;
@@ -308,67 +352,26 @@ window.addEventListener('load', () => {
     render(root, store);
 });
 
-// ------------------------------------------------------  COMPONENTS
-
-// Example of a pure function that renders infomation requested from the backend
-const ImageOfTheDay = (apod) => {
-    // If image does not already exist, or it is not from today -- request it again
-    const today = new Date();
-    const photodate = new Date(apod.date);
-    console.log(photodate.getDate(), today.getDate());
-
-    console.log(photodate.getDate() === today.getDate());
-    if (!apod || apod.date === today.getDate()) {
-        getImageOfTheDay(store)
-    }
-
-    // check if the photo of the day is actually type video!
-    if (apod.media_type === "video") {
-        return (`
-            <p>See today's featured video <a href="${apod.url}">here</a></p>
-            <p>${apod.title}</p>
-            <p>${apod.explanation}</p>
-        `)
-    } else {
-        return (`
-            <img src="${apod.image.url}" height="350px" width="100%" />
-            <p>${apod.image.explanation}</p>
-        `)
-    }
-}
-
 // ------------------------------------------------------  API CALLS
-
-// Example API call
-const getImageOfTheDay = (state) => {
-    let { apod } = state
-
-    fetch(`http://localhost:3000/apod`)
-        .then(res => res.json())
-        .then(apod => updateStore(store, { apod }))
-
-    // return data
-}
-
 const fetchPage = (state, path) => {
     fetch(`http://localhost:3000${path}`)
-        .then(res => {
-            window.history.pushState("", "", res.headers.get('Location'));
-            return res.json();
-        }).then(data => updateStore(state, data));
+        .then(res => res.json())
+        .then(data => updateStore(state, data));
 };
 
 const getRoverManifests = state => {
     fetchPage(state, '/index');
 };
 
-//reset info button
+// ------------------------------------------------------  UTILS
+
+//reset info button helper
 const resetButton = button => {
     button.classList.remove('button--type-closeinfo');
     button.classList.add('button--type-showinfo');
 };
 
-// reset preview
+// reset preview helper
 const resetPreview = preview => {
     preview.classList.remove('rovers--hidden');
 };

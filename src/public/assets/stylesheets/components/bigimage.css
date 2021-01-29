@@ -7,7 +7,7 @@
     width: 100%;
 }
 
-.bigimage--visible {
+.bigimage--open {
     display: flex;
 }
 
@@ -17,8 +17,15 @@
     /* background-image: url(../../images/curiosity_full.jpg); */
     background-image: url(../../images/horizontal.jpg);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: auto;
     background-position: center;
+    /* align-self: center; */
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+.bigimage--visible {
+    opacity: 1;
 }
 
 .bigimage__close {
@@ -36,6 +43,10 @@
 
 .bigimage--horizontal .bigimage__turn {
     display: block;
+}
+
+.bigimage--full {
+    background-size: contain;
 }
 
 .bigimage__info {

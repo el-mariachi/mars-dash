@@ -4,13 +4,15 @@ const store = Immutable.Map({
     rovers: Immutable.List(['Curiosity', 'Opportunity', 'Spirit']),
     manifests: Immutable.List([]),
     rover: '',
-    images: [],
+    photos: [],
     hasEarlierImages: true,
     hasLaterImages: false,
+    nextSkip: 0,
+    prevSkip: 0,
     header: Immutable.Map({
-        sol: 3008,
-        hasEarlierSol: true,
-        hasLaterSol: false
+        sol: 0,
+        hasEarlierSol: false,
+        hasLaterSol: true
     })
 });
 
@@ -46,8 +48,8 @@ const Sol = state => {
     const rover = state.get('rover');
     const hasEarlierSol = header.get('hasEarlierSol');
     const hasLaterSol = header.get('hasLaterSol');
-    const prevHref = hasEarlierSol ? `/${rover}?sol=${parseInt(header.get('sol')) - 1}` : '';
-    const nextHref = hasLaterSol ? `/${rover}?sol=${parseInt(header.get('sol')) + 1}` : '';
+    const prevHref = hasEarlierSol ? `/${rover}/${parseInt(header.get('sol')) - 1}` : '';
+    const nextHref = hasLaterSol ? `/${rover}/${parseInt(header.get('sol')) + 1}` : '';
     return `<div class="sol">
 <a href="${prevHref}" class="button sol__button sol__prev ${buttonDisabled(hasEarlierSol)}"></a>
 <span class="sol__number">${header.get('sol')}</span>
@@ -120,9 +122,38 @@ const Rovers = state => {
                     </li>
                 </ul>
             </div>
-            <a href="/${name}" class="rovers__preview"></a>
+            <a href="/${name}/${roverData.max_sol}" class="rovers__preview"></a>
         </li>`
     });
+};
+
+const Thumbnails = state => {
+    if (state.get('photos').size === 0) {
+        return Immutable.List([`<li class="thumbnails__item thumbnails--load-earlier">
+        <div class="thumbnails__inner">No photos on this sol. Choose another sol.</div>
+    </li>`]);
+    }
+    const earlier = state.get('hasEarlierImages') ? Immutable.List([`<li class="thumbnails__item thumbnails--load-earlier">
+    <a href="/${state.get('rover')}/${state.getIn(['header', 'sol'])}/${state.get('nextSkip')}" class="thumbnails__inner">Load Earlier Images</a>
+</li>`]) : Immutable.List([]);
+    const later = state.get('hasLaterImages') ? Immutable.List([`<li class="thumbnails__item thumbnails--load-earlier">
+<a href="/${state.get('rover')}/${state.getIn(['header', 'sol'])}/${state.get('prevSkip')}" class="thumbnails__inner">Load Later Images</a>
+</li>`]) : Immutable.List([]);
+    return later.concat(state.get('photos').map(photo => {
+        return `<li class="thumbnails__item">
+        <div class="thumbnails__inner">
+            <ul class="thumbnails__info info">
+                <li class="info__item"><span class="info__id">${photo.get('id')}</span></li>
+                <li class="info__item"><span class="info__cam">${photo.getIn(['camera', 'name'])}</span></li>
+                <li class="info__item"><span class="info__sol">${photo.get('sol')}</span></li>
+            </ul>
+            <div class="thumbnails__frame"><img class="thumbnail" src="${photo.get('img_src')}"
+                    alt="Image ${photo.get('id')}" data-id="${photo.get('id')}" data-earth-date="${photo.get('earth_date')}"
+                    data-cameraName="${photo.getIn(['camera', 'full_name'])}">
+            </div>
+        </div>
+    </li>`;
+    }), earlier);
 };
 
 const contentForPage = page => {
@@ -139,7 +170,11 @@ const contentForPage = page => {
             break;
         case 'rover':
             return state => {
-                return `<h1>${state.get('rover')}</h1>`;
+                return `<main class="content content--page-rover">
+                    <ul class="content__inner thumbnails">
+                    ${Thumbnails(state).join('')}
+                    </ul>
+                </main>`;
             };
             break;
         default:
@@ -166,22 +201,86 @@ const footerForPage = page => {
     }
 };
 
+const bigImageForPage = page => {
+    switch (page) {
+        case 'index':
+            return state => {
+                return '';
+            };
+            break;
+        case 'rover':
+            return state => {
+                return `<div id="bigimage" class="bigimage">
+                <div class="bigimage__frame">
+                    <button class="bigimage__close button button--type-close"></button>
+                    <div class="bigimage__turn turn"></div>
+                </div>
+                <ul class="bigimage__info">
+                    <li class="info__item"><span class="info__id"></span></li>
+                    <li class="info__item"><span class="info__cam"></span></li>
+                    <li class="info__item"><span class="info__date"></span></li>
+                </ul>
+            </div>`;
+            };
+            break;
+
+        default:
+            break;
+    }
+};
 
 const App = (state) => {
     const page = state.get('page');
-    console.log(page);
     const Header = headerForPage(page);
     const Content = contentForPage(page);
     const Footer = footerForPage(page);
+    const BigImage = bigImageForPage(page);
     return `
         ${Header(state)}
         ${Content(state)}
         ${Footer(state)}
+        ${BigImage(state)}
     `
 };
 
+const showBigImage = (image) => {
+    const destination = document.getElementById('bigimage');
+    if (!destination) {
+        return;
+    }
+    const [frame, info] = destination.children;
+    destination.classList.add('bigimage--open');
+    if (image.naturalWidth > destination.clientWidth || image.naturalHeight > destination.clientHeight) {
+        frame.classList.add('bigimage--full');
+    } else {
+        frame.classList.remove('bigimage--full');
+    }
+    if ((image.naturalWidth / image.naturalHeight) > 4 / 3) {
+        destination.classList.add('bigimage--horizontal');
+    } else {
+        destination.classList.remove('bigimage--horizontal');
+    }
+    frame.style.backgroundImage = `url(${image.src})`;
+    info.querySelector('.info__id').textContent = image.dataset.id;
+    info.querySelector('.info__cam').textContent = image.dataset.cameraname;
+    info.querySelector('.info__date').textContent = image.dataset.earthDate;
+    frame.classList.add('bigimage--visible');
+};
+
+const closeBigImage = button => {
+    const frame = button.parentNode;
+    frame.classList.remove('bigimage--visible');
+    frame.style = '';
+    // reset infos
+    Array.from(frame.nextElementSibling.children).forEach(li => {
+        li.children[0].textContent = '';
+    });
+    frame.closest('#bigimage').classList.remove('bigimage--open');
+};
+
+// handles most click events
 const clickHandler = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // you can check out anytime you like but you can never leave
     const target = event.target;
     const targetNodeName = target.nodeName;
     switch (targetNodeName) {
@@ -190,9 +289,15 @@ const clickHandler = (event) => {
             break;
 
         case 'IMG':
-            console.log(target.getAttribute('src'));
+            if (target.className === 'thumbnail') {
+                showBigImage(target);
+            }
             break;
-
+        case 'BUTTON':
+            if (target.classList.contains('bigimage__close')) {
+                closeBigImage(target);
+            }
+            break;
         default:
             return;
     }
@@ -288,7 +393,7 @@ const showInfo = event => {
         resetPreview(preview);
     }
 };
-
+// this is only relevant on smartphone landscape orientation
 document.addEventListener('click', showInfo);
 
 // upon changing device orientation brings back rover preview if it was hidden by info

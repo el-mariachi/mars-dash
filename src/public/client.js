@@ -194,7 +194,7 @@ const contentForPage = page => {
             };
         case 'rover':
             return state => {
-                return `<main class="content content--page-rover">
+                return `<main class="content content--page-${page}">
                     <ul class="content__inner thumbnails">
                     ${Thumbnails(state).join('')}
                     </ul>

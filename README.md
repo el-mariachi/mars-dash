@@ -12,3 +12,11 @@ The gallery display is limited by 25 images per page. If there are more than 25
 images available for a particular sol, an appropriate button is rendered. 
 Click on that button to show more images. Click on an image thumbnail
 to view a full-sized version.
+
+### Instructions
+
+- ```npm install```
+- [Obtain yout personal API key from NASA](https://api.nasa.gov/#browseAPI)
+- Create a file named ```.env``` in the project root with following contents: ```API_KEY=<your_key>```
+- ```npm start``` to start the server
+- Go to ```localhost:3000```

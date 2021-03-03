@@ -18,6 +18,7 @@
 
 .content--page-rover {
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .content__inner {

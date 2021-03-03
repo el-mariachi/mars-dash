@@ -16,5 +16,8 @@
     "immutable": "^4.0.0-rc.12",
     "node-fetch": "^2.6.0",
     "probe-image-size": "^6.0.0"
+  },
+  "engines": {
+    "node": "v12.13.1"
   }
 }

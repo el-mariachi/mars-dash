@@ -354,7 +354,7 @@ window.addEventListener('load', () => {
 
 // ------------------------------------------------------  API CALLS
 const fetchPage = (state, path) => {
-    fetch(`https://mars-dash.herokuapp.com${path}`)
+    fetch(`${window.location.origin}${path}`)
         .then(res => res.json())
         .then(data => updateStore(state, data));
 };

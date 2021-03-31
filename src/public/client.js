@@ -244,12 +244,12 @@ const bigImageForPage = page => {
             // state is not used here
             // using function for consistency
             return state => {
-                return `<div id="bigimage" class="bigimage">
+                return `<div id="bigimage" class="bigimage bigimage--rover">
                 <div class="bigimage__frame">
                     <button class="bigimage__close button button--type-close"></button>
                     <div class="bigimage__turn turn"></div>
                 </div>
-                <ul class="bigimage__info">
+                <ul class="bigimage__info info--image">
                     <li class="info__item"><span class="info__id"></span></li>
                     <li class="info__item"><span class="info__cam"></span></li>
                     <li class="info__item"><span class="info__date"></span></li>
@@ -340,6 +340,10 @@ const clickHandler = (event) => {
         case 'BUTTON':
             if (target.classList.contains('bigimage__close')) {
                 closeBigImage(target);
+            } else if (target.classList.contains('apod__show_info')) {
+                // show apod info
+            } else if (target.classList.contains('apod__hide_info')) {
+                // hide apod info
             }
             break;
         default:

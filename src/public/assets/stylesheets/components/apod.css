@@ -1,7 +1,74 @@
+.apod {
+    height: calc(100vh - 98px);
+    bottom: 40px;
+}
+
 .apod__logo {
     font-size: 1.4em;
     color: #e1c8aa;
     padding-left: 74px;
     background: url(../../images/APOD_58x22s.svg) no-repeat left center;
     background-size: 30%;
+}
+
+
+.apod--hidden {
+    display: none;
+}
+
+.apod__info {
+    position: absolute;
+}
+
+.apod__show_info {
+    border: 2px solid #e1c8aa;
+    width: 29px;
+    height: 30px;
+    background-image: url(../../images/i_36s.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
+
+.apod__hide_info {
+    display: block;
+    position: absolute;
+    right: 16px;
+}
+
+.apod .info__title,
+.apod .info__copy,
+.apod .info__date {
+    margin: 0 44px 0 0;
+}
+
+@media screen and (orientation: landscape) {
+    .apod {
+        height: calc(100vh - 98px);
+    }
+
+    .apod .info__item,
+    .apod .info__item:last-child {
+        margin: 0;
+    }
+}
+
+@media screen and (orientation: portrait) and (min-width: 760px) {
+    .apod {
+        height: calc(100vh - 98px);
+    }
+}
+
+@media screen and (min-width: 760px) {
+    .apod .info__title,
+    .apod .info__copy,
+    .apod .info__date {
+        margin: 0 50% 0 0;
+    }
+}
+
+@media screen and (min-width: 1020px) {
+    .apod {
+        height: calc(100vh - 98px);
+    }
 }

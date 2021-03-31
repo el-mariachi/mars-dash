@@ -2,9 +2,16 @@
     display: none;
     flex-direction: column;
     position: fixed;
-    bottom: 0;
-    height: calc(100vh - 81px);
     width: 100%;
+}
+
+.bigimage--rover {
+    height: calc(100vh - 81px);
+    bottom: 0;
+}
+
+.bigimage--rover .bigimage__info {
+    display: flex;
 }
 
 .bigimage--open {
@@ -14,12 +21,10 @@
 .bigimage__frame {
     flex: 1;
     background-color: #5a5555;
-    /* background-image: url(../../images/curiosity_full.jpg); */
     background-image: url(../../images/horizontal.jpg);
     background-repeat: no-repeat;
     background-size: auto;
     background-position: center;
-    /* align-self: center; */
     transition: opacity 0.3s;
     opacity: 0;
 }
@@ -51,11 +56,9 @@
 
 .bigimage__info {
     background-color: #5a5555;
-    margin: 0;
     padding: 9px 18px;
     color: #e6a05f;
     font-size: 1.3em;
-    display: flex;
     flex-direction: column;
 }
 
@@ -66,7 +69,7 @@
 }
 
 @media screen and (orientation: landscape) {
-    .bigimage {
+    .bigimage--rover {
         height: calc(100vh - 59px);
     }
 
@@ -85,21 +88,24 @@
 }
 
 @media screen and (orientation: portrait) and (min-width: 760px) {
-    .bigimage {
+    .bigimage--rover {
         height: calc(100vh - 59px);
+    }
+
+    .bigimage--rover .bigimage__info {
+        width: 320px;
     }
 
     .bigimage__info {
         position: absolute;
         bottom: 0;
-        width: 320px;
         align-self: center;
         font-size: 1.4em;
     }
 }
 
 @media screen and (min-width: 1020px) {
-    .bigimage {
+    .bigimage--rover {
         height: calc(100vh - 59px);
     }
 

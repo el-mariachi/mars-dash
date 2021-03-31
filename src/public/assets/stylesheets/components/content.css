@@ -10,7 +10,8 @@
    height: calc(100vh - 124px);
 }
 
-.content--page-index {
+.content--page-index,
+.content--page-apod {
     display: flex;
     justify-content: center;
     align-items: center;

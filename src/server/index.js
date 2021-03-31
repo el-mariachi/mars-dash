@@ -8,14 +8,14 @@ const { List } = require('immutable');
 const rovers = List(['curiosity', 'opportunity', 'spirit']);
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 const photoLimit = 25;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/', express.static(path.join(__dirname, '../public')));
-// app.use('/static', express.static(path.join(__dirname, '../public/static')));
+app.use('/static', express.static(path.join(__dirname, '../public/static')));
 
 // Memoization helper
 const generateKey = args => {
@@ -118,6 +118,19 @@ app.get('/index', (req, res) => {
         res.location('/');
         res.json({ page: 'index', manifests: manifests });
     });
+});
+
+// APOD API call
+app.get('/apod', async (req, res) => {
+    try {
+        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
+            .then(res => res.json());
+        res.set('Access-Control-Expose-Headers', 'Location');
+        res.location('/apod');
+        res.json({ page: 'apod', image });
+    } catch (err) {
+        console.log('error:', err);
+    }
 });
 
 /**

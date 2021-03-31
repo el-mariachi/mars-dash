@@ -9,12 +9,28 @@
     justify-content: space-between;
 }
 
+.info--image {
+    margin: 0;
+}
+
+.info--apod {
+    position: absolute;
+    bottom: 0;
+    margin: 0 16px;
+    height: calc(100vh - 116px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .info__item {
     display: flex;
     justify-content: space-between;
 }
 
 .info__launched::before,
+.info__title::before,
+.info__copy::before,
+.info__expl::before,
 .info__landed::before,
 .info__status::before,
 .info__id::before,
@@ -26,6 +42,9 @@
 }
 
 .info__launched,
+.info__title,
+.info__copy,
+.info__expl,
 .info__landed,
 .info__status,
 .info__id,
@@ -47,6 +66,18 @@
 
 .info__launched::before {
     content: 'Launched:\00A0';
+}
+
+.info__title::before {
+    content: 'Title:\00A0';
+}
+
+.info__copy::before {
+    content: 'Copyright:\00A0';
+}
+
+.info__expl::before {
+    content: 'Explanation:\00A0';
 }
 
 .info__landed::before {
@@ -92,6 +123,10 @@
     .info__item {
         margin-bottom: 0.5em;
     }
+
+    .info--apod {
+        margin: 0;
+    }
     
     .info__id,
     .info__cam,
@@ -109,6 +144,10 @@
     .info__item:last-child {
         margin-bottom: 0;
     }
+
+    .info--apod {
+        height: auto;
+    }
 }
 
 @media screen and (orientation: landscape) and (min-width: 650px) {
@@ -122,6 +161,10 @@
 
     .info__year::after {
         content: '-';
+    }
+
+    .info--apod {
+        height: auto;
     }
 
     .info__monthday {

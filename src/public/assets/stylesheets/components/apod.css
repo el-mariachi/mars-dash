@@ -11,6 +11,11 @@
     background-size: 30%;
 }
 
+.apod__item.apod--item-date,
+.apod__item.apod--item-copy,
+.apod__item.apod--item-title {
+    margin-right: 44px;
+}
 
 .apod--hidden {
     display: none;
@@ -40,6 +45,8 @@
 .apod .info__copy,
 .apod .info__date {
     margin: 0 44px 0 0;
+    display: inline-block;
+    width: auto;
 }
 
 @media screen and (orientation: landscape) {
@@ -56,14 +63,6 @@
 @media screen and (orientation: portrait) and (min-width: 760px) {
     .apod {
         height: calc(100vh - 98px);
-    }
-}
-
-@media screen and (min-width: 760px) {
-    .apod .info__title,
-    .apod .info__copy,
-    .apod .info__date {
-        margin: 0 50% 0 0;
     }
 }
 

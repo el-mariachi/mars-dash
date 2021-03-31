@@ -21,7 +21,8 @@
 .bigimage__frame {
     flex: 1;
     background-color: #5a5555;
-    background-image: url(../../images/horizontal.jpg);
+    /* background-image: url(../../images/horizontal.jpg); */
+    background-image: url(http://via.placeholder.com/1200x800?text=No+image+found);
     background-repeat: no-repeat;
     background-size: auto;
     background-position: center;

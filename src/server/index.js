@@ -127,7 +127,7 @@ app.get('/apod', async (req, res) => {
             .then(res => res.json());
         res.set('Access-Control-Expose-Headers', 'Location');
         res.location('/apod');
-        res.json({ page: 'apod', image });
+        res.json({ page: 'apod', apod: image });
     } catch (err) {
         console.log('error:', err);
     }

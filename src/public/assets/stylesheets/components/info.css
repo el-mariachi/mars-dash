@@ -19,6 +19,7 @@
     margin: 0 16px;
     height: calc(100vh - 116px);
     overflow-y: auto;
+    list-style-type: none;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -42,9 +43,6 @@
 }
 
 .info__launched,
-.info__title,
-.info__copy,
-.info__expl,
 .info__landed,
 .info__status,
 .info__id,

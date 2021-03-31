@@ -1,6 +1,6 @@
 const store = Immutable.Map({
     page: 'index',
-    apod: '',
+    apod: {},
     rovers: Immutable.List(['Curiosity', 'Opportunity', 'Spirit']),
     manifests: Immutable.List([]),
     rover: '',
@@ -70,16 +70,23 @@ const headerForPage = page => {
     switch (page) {
         case 'index':
             return () => {
-                return `<header class="header header--page-index">
+                return `<header class="header header--page-${page}">
                     <div class="logo header__logo"></div>
                 </header>`;
             };
         case 'rover':
             return state => {
-                return `<header class="header header--page-rover header--rover-${state.get('rover')}">
+                return `<header class="header header--page-${page} header--rover-${state.get('rover')}">
                 <a href="/index" class="button button--type-back"></a>
                 ${Sol(state)}
             </header>`;
+            };
+        case 'apod':
+            return () => {
+                return `<header class="header header--page-${page}">
+                <a href="/index" class="button button--type-back"></a>
+                <span class="apod__logo">Astronomy Picture<br>Of The Day</span>
+                </header>`;
             };
         default:
             return;
@@ -200,6 +207,10 @@ const contentForPage = page => {
                     </ul>
                 </main>`;
             };
+        case 'apod':
+            return state => {
+                return `<main class="content content--page-${page}"></main>`;
+            }
         default:
             return;
     }
@@ -216,11 +227,20 @@ const footerForPage = page => {
     switch (page) {
         case 'index':
             return state => {
-                return `<footer class="footer"></footer>`;
+                return `<footer class="footer footer--page-index">
+                <span class="apod__logo">Astronomy Picture<br>Of The Day</span>
+                <a href="/apod" class="footer__button"></a>
+                </footer>`;
             };
         case 'rover':
             return state => {
                 return `<footer class="footer"></footer>`;
+            };
+        case 'apod':
+            return state => {
+                return `<footer class="footer footer--page-apod">
+                <button class="button apod__show_info"></button>
+                </footer>`;
             };
         default:
             return;
@@ -256,6 +276,33 @@ const bigImageForPage = page => {
                 </ul>
             </div>`;
             };
+        case 'apod':
+            return state => {
+                if (state.getIn(['apod', 'media_type']) === "video") {
+                    return `<div class="apod bigimage bigimage--open">
+                    <div class="bigimage__frame bigimage--visible">
+                    </div>
+                    <ul class="bigimage__info info--apod">
+                        <li class="info__item"><p>See today's featured video <a href="${state.getIn(['apod', 'url'])}">here</a></p></li>
+                        <li class="info__item"><p>${state.getIn(['apod', 'title'])}</p></li>
+                        <li class="info__item"><p>${state.getIn(['apod', 'explanation'])}</p></li>
+                    </ul>
+                </div>`;
+                } else {
+                    return `<div class="apod bigimage bigimage--open bigimage--horizontal">
+                    <div class="bigimage__frame bigimage--visible bigimage--full" style="background-image: url(${state.getIn(['apod', 'url'])})">
+                        <div class="bigimage__turn turn"></div>
+                    </div>
+                    <ul class="bigimage__info info--apod apod--hidden">
+                        <button class="button button--type-closeinfo apod__hide_info"></button>
+                        <li class="apod__item apod--item-title"><span class="info__title">${state.getIn(['apod', 'title'])}</span></li>
+                        <li class="apod__item apod--item-copy"><span class="info__copy"></span>${state.hasIn(['apod', 'copyright']) ? state.getIn(['apod', 'copyright']) : 'N/A'}</li>
+                        <li class="apod__item apod--item-date"><span class="info__date"></span>${state.getIn(['apod', 'date'])}</li>
+                        <li class="apod__item"><span class="info__expl"></span>${state.getIn(['apod', 'explanation'])}</li>
+                    </ul>
+                </div>`;
+                }
+            }
         default:
             return;
     }
@@ -319,6 +366,13 @@ const closeBigImage = button => {
     frame.closest('#bigimage').classList.remove('bigimage--open');
 };
 
+const showAPODInfo = button => {
+    document.querySelector('.info--apod').classList.remove('apod--hidden');
+}
+const hideAPODInfo = button => {
+    document.querySelector('.info--apod').classList.add('apod--hidden');
+}
+
 /**
  * Major click handler. Calls other functions depending on click target
  * @param {event} event Click event
@@ -342,8 +396,10 @@ const clickHandler = (event) => {
                 closeBigImage(target);
             } else if (target.classList.contains('apod__show_info')) {
                 // show apod info
+                showAPODInfo(target);
             } else if (target.classList.contains('apod__hide_info')) {
                 // hide apod info
+                hideAPODInfo(target);
             }
             break;
         default:

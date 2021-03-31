@@ -19,3 +19,11 @@
     justify-content: flex-start;
     padding-left: 16px;
 }
+
+.footer__button {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 48px;
+    height: 38px;
+}

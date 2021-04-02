@@ -1,13 +1,13 @@
 {
-  "name": "jsnd3_mars_dashboard",
-  "version": "1.0.0",
-  "description": "course project",
+  "name": "mars_dash",
+  "version": "1.0.1",
+  "description": "Udacity Intermediate Javascript course project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server/index.js"
   },
-  "author": "",
+  "author": "Dmitri Sokolov",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",

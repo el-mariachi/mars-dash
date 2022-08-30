@@ -19,6 +19,7 @@ const router = express.Router();
 
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use('/.netlify/functions/index', router); // this maps API calls from client
+app.use('/', router); // this maps API calls from client
 // app.use('/static', express.static(path.join(__dirname, '../public/static')));
 
 // Memoization helper

@@ -3,19 +3,23 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const path = require('path');
+const serverless = require('serverless-http');
 const { List } = require('immutable');
 
 const rovers = List(['curiosity', 'opportunity', 'spirit']);
 
 const app = express();
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 const photoLimit = 25;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const router = express.Router();
+
 app.use('/', express.static(path.join(__dirname, '../public')));
-app.use('/static', express.static(path.join(__dirname, '../public/static')));
+app.use('/.netlify/functions/index', router); // this maps API calls from client
+// app.use('/static', express.static(path.join(__dirname, '../public/static')));
 
 // Memoization helper
 const generateKey = args => {
@@ -111,7 +115,7 @@ const getCachedImages = memoize(getImagesForRover, 1000 * 60 * 2); // timeout ==
 /**
  * Used for index page. Returns rover manifest data
  */
-app.get('/index', (req, res) => {
+router.get('/index', (req, res) => {
     // get manifests
     allManifests().then(manifests => {
         res.set('Access-Control-Expose-Headers', 'Location');
@@ -121,7 +125,7 @@ app.get('/index', (req, res) => {
 });
 
 // APOD API call
-app.get('/apod', async (req, res) => {
+router.get('/apod', async (req, res) => {
     try {
         let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
             .then(res => res.json());
@@ -136,7 +140,7 @@ app.get('/apod', async (req, res) => {
 /**
  * Used for rover page. Returns photo data
  */
-app.get('/:roverName/:sol?/:skip?', async (req, res) => {
+router.get('/:roverName/:sol?/:skip?', async (req, res) => {
     const roverName = req.params.roverName;
     if (!rovers.includes(roverName)) { // send error page for bad requests
         res.status(404);
@@ -159,6 +163,7 @@ app.get('/:roverName/:sol?/:skip?', async (req, res) => {
     }
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+// app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-
+module.exports = app;
+module.exports.handler = serverless(app);

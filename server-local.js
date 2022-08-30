@@ -1,0 +1,5 @@
+const app = require('./src/server/index');
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => console.log(`Mars server app listening on port ${port}!`));

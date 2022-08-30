@@ -19,7 +19,7 @@ const router = express.Router();
 
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use('/.netlify/functions/index', router); // this maps API calls from client
-app.use('/', (req, res) => { res.sendFile(path.join(__dirname, 'src/public/index.html')) });
+// app.use('/', (req, res) => { res.sendFile(path.join(__dirname, 'src/public/index.html')) });
 // app.use('/static', express.static(path.join(__dirname, '../public/static')));
 
 // Memoization helper
@@ -168,4 +168,20 @@ router.get('/:roverName/:sol?/:skip?', async (req, res) => {
 // app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 module.exports = app;
-module.exports.handler = serverless(app);
+// module.exports.handler = serverless(app);
+module.exports.handler = function (event, context, callback) {
+    // The event object contains information about the request
+    // The callback argument is how you return information to the caller and follows a pretty standard form of: callback(error, result)
+
+    let data = {
+        name: 'john',
+        time: Date.now()
+    };
+
+    console.log('data:' + JSON.stringify(data));
+
+    callback(null, {
+        statusCode: 200,
+        body: JSON.stringify(data)
+    });
+}

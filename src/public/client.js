@@ -414,7 +414,7 @@ window.addEventListener('load', () => {
 
 // ------------------------------------------------------  API CALLS
 const fetchPage = (state, path) => {
-    fetch(`${window.location.origin}${path}`)
+    fetch(`${window.location.origin}/.netlify/functions/index${path}`)
         .then(res => res.json())
         .then(data => updateStore(state, data));
 };

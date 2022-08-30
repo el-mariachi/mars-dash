@@ -116,6 +116,7 @@ const getCachedImages = memoize(getImagesForRover, 1000 * 60 * 2); // timeout ==
  * Used for index page. Returns rover manifest data
  */
 router.get('/index', (req, res) => {
+    console.log('index route hit');
     // get manifests
     allManifests().then(manifests => {
         res.set('Access-Control-Expose-Headers', 'Location');

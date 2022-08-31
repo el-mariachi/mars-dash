@@ -24,5 +24,9 @@
     },
     "engines": {
         "node": "v14.16.1"
-    }
+    },
+    "devDependencies": {
+        "netlify-cli": "^11.5.1"
+    },
+    "type": "module"
 }

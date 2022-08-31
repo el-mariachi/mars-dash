@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 // const fetch = require('node-fetch');
+const axios = require('axios').default;
 const path = require('path');
 const serverless = require('serverless-http');
 const { List } = require('immutable');
@@ -61,8 +62,8 @@ function memoize(fn, timeout) {
 }
 
 const getManifestFor = async rover => {
-    const response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${process.env.API_KEY}`);
-    const manifest = await response.json();
+    const response = await axios.get(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${process.env.API_KEY}`);
+    const manifest = await response.data;
     return manifest;
 };
 // memoized getManifestFor
@@ -98,7 +99,7 @@ const allManifests = async () => {
  * @returns {Promise} A promise that resolves to an object
  */
 const getImagesForRover = async (rover, sol, skip, limit = photoLimit) => {
-    const response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=${sol}&api_key=${process.env.API_KEY}`).then(res => res.json());
+    const response = await axios.get(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=${sol}&api_key=${process.env.API_KEY}`).then(res => res.data);
     const returnedSize = response.photos.length;
     const photos = List(response.photos).sort((a, b) => b.id - a.id).skip(skip).take(limit);
     const nextSkip = skip + limit;

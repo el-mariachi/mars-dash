@@ -11,6 +11,7 @@
     "author": "Dmitri Sokolov",
     "license": "ISC",
     "dependencies": {
+        "axios": "^0.27.2",
         "body-parser": "^1.19.0",
         "dotenv": "^8.2.0",
         "encoding": "^0.1.13",
@@ -23,6 +24,9 @@
         "serverless-http": "^3.0.2"
     },
     "engines": {
-        "node": "v18.8.0"
+        "node": "v14.19.3"
+    },
+    "devDependencies": {
+        "netlify-cli": "^11.5.1"
     }
 }

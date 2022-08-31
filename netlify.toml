@@ -1,5 +1,5 @@
 [build]
-    command = "npm install && npm run build"
+    command = "unset NODE_OPTIONS && NODE_OPTIONS=--openssl-legacy-provider && npm install && npm run build"
     functions = "functions"
 [functions]
     node_bundler = "esbuild"

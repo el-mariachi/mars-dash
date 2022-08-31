@@ -18,15 +18,11 @@
         "express": "^4.17.1",
         "immutable": "^4.0.0-rc.12",
         "netlify-lambda": "^2.0.15",
-        "node-fetch": "^2.6.0",
         "nodemon": "^2.0.19",
         "probe-image-size": "^6.0.0",
         "serverless-http": "^3.0.2"
     },
     "engines": {
         "node": "v14.19.3"
-    },
-    "devDependencies": {
-        "netlify-cli": "^11.5.1"
     }
 }

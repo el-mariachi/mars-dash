@@ -1,7 +1,6 @@
 require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
-// const fetch = require('node-fetch');
 const axios = require('axios').default;
 const path = require('path');
 const serverless = require('serverless-http');
@@ -20,7 +19,6 @@ const router = express.Router();
 
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use('/.netlify/functions/index', router); // this maps API calls from client
-// app.use('/', (req, res) => { res.sendFile(path.join(__dirname, 'src/public/index.html')) });
 // app.use('/static', express.static(path.join(__dirname, '../public/static')));
 
 // Memoization helper
@@ -118,7 +116,6 @@ const getCachedImages = memoize(getImagesForRover, 1000 * 60 * 2); // timeout ==
  * Used for index page. Returns rover manifest data
  */
 router.get('/index', (req, res) => {
-    console.log('index route hit');
     // get manifests
     allManifests().then(manifests => {
         res.set('Access-Control-Expose-Headers', 'Location');
@@ -130,8 +127,8 @@ router.get('/index', (req, res) => {
 // APOD API call
 router.get('/apod', async (req, res) => {
     try {
-        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
-            .then(res => res.json());
+        let image = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
+            .then(res => res.data);
         res.set('Access-Control-Expose-Headers', 'Location');
         res.location('/apod');
         res.json({ page: 'apod', apod: image });

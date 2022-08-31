@@ -26,9 +26,7 @@ Click the bottom-right corner of the footer on the index page to view the Astron
 
 Netlify can only host static content. However, we can utilize Netlify Functions to run server side code.
 
--   Use Node 18+
--   Remove 'node-fetch' from dependencies, use node's native fetch (experimental as of now)
--   Add `NODE_OPTIONS=--openssl-legacy-provider`
+-   Remove `node-fetch` from dependencies, use [`axios`](https://www.npmjs.com/package/axios)
 -   `npm install serverless-http nodemon netlify-lambda`
 -   In the server.js or server/index.js code import add `const serverless = require("serverless-http")`
 -   Create an Express Router instance: `const router = express.Router()`

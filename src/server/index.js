@@ -1,18 +1,10 @@
-// require('dotenv').config()
-import dotenv from 'dotenv';
-dotenv.config()
-import express, { Router } from 'express';
-import bodyparser from 'body-parser';
-import fetch from 'node-fetch';
-
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-import serverless from 'serverless-http';
-import { List } from 'immutable';
+require('dotenv').config()
+const express = require('express');
+const bodyParser = require('body-parser');
+// const fetch = require('node-fetch');
+const path = require('path');
+const serverless = require('serverless-http');
+const { List } = require('immutable');
 
 const rovers = List(['curiosity', 'opportunity', 'spirit']);
 
@@ -20,10 +12,10 @@ const app = express();
 // const port = process.env.PORT || 3000;
 const photoLimit = 25;
 
-app.use(bodyparser.urlencoded({ extended: false }));
-app.use(bodyparser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-const router = Router();
+const router = express.Router();
 
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use('/.netlify/functions/index', router); // this maps API calls from client
@@ -124,7 +116,9 @@ const getCachedImages = memoize(getImagesForRover, 1000 * 60 * 2); // timeout ==
 /**
  * Used for index page. Returns rover manifest data
  */
-router.get('/index', async (req, res) => {
+router.get('/index', (req, res) => {
+    console.log('index route hit');
+    // get manifests
     allManifests().then(manifests => {
         res.set('Access-Control-Expose-Headers', 'Location');
         res.location('/');
@@ -173,23 +167,5 @@ router.get('/:roverName/:sol?/:skip?', async (req, res) => {
 
 // app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-export default app;
-export const handler = serverless(app);
-/*
-module.exports.handler = function (event, context, callback) {
-    // The event object contains information about the request
-    // The callback argument is how you return information to the caller and follows a pretty standard form of: callback(error, result)
-
-    let data = {
-        name: 'john',
-        time: Date.now()
-    };
-
-    console.log('data:' + JSON.stringify(data));
-
-    callback(null, {
-        statusCode: 200,
-        body: JSON.stringify(data)
-    });
-}
-/** */
+module.exports = app;
+module.exports.handler = serverless(app);

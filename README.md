@@ -26,23 +26,25 @@ Click the bottom-right corner of the footer on the index page to view the Astron
 
 Netlify can only host static content. However, we can utilize Netlify Functions to run server side code.
 
+-   Use Node 18+
+-   Remove 'node-fetch' from dependencies, use node's native fetch (experimental as of now)
+-   Add `NODE_OPTIONS=--openssl-legacy-provider`
 -   `npm install serverless-http nodemon netlify-lambda`
--   Convert server code to ESM, add `"type": "module"` to 'package.json'
--   In the server.js or server/index.js code import add `import serverless from "serverless-http"`
+-   In the server.js or server/index.js code import add `const serverless = require("serverless-http")`
 -   Create an Express Router instance: `const router = express.Router()`
 -   Add it as middleware `app.use('/.netlify/functions/index', router)`. Replace 'index' with the name of your server code file name if needed.
 -   Transform routes from `app.get(...)` to `router.get(...)`
 -   Separate server app from server starting code. Export app and a handler from server.js/index.js:\
 
 ```js
-export default app;
-export const handler = serverless(app);
+module.exports = app;
+module.exports.handler = serverless(app);
 ```
 
 -   In the server starting file 'server-local.js' import app and start server:
 
 ```js
-import app from './src/server/index.js';
+const app = require('src/server/index');
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
@@ -56,8 +58,6 @@ app.listen(port, () => {
 [build]
     command = "npm install && npm run build"
     functions = "functions"
-[functions]
-    node_bundler = "esbuild"
 ```
 
--   Add API path prefix to the client code: `/.netlify/functions/index`.
+-   Change all API endpoints in client code to point to `/.netlify/functions/index`

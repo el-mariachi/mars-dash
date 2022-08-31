@@ -23,10 +23,6 @@
         "serverless-http": "^3.0.2"
     },
     "engines": {
-        "node": "v14.16.1"
-    },
-    "devDependencies": {
-        "netlify-cli": "^11.5.1"
-    },
-    "type": "module"
+        "node": "v18.8.0"
+    }
 }

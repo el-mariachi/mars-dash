@@ -54,8 +54,10 @@ app.listen(port, () => {
 
 ```toml
 [build]
-    command = "npm install && npm run build"
+    command = "npm run build"
     functions = "functions"
 ```
-
--   Change all API endpoints in client code to point to `/.netlify/functions/index`
+- Install netlify-cli to test funcions locally: `npm i netlify-cli` or `npm i -g netlify-cli`
+- Run `./node_modules/.bin/netlify functions:serve` or `netlify functions:serve`\
+Your functions will be available at 'http://localhost:9999/.netlify/functions/function-name'
+-   Change all API endpoints in client code to point to `/.netlify/functions/function-name`

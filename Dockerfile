@@ -1,14 +1,17 @@
-# syntax=docker/dockerfile:1
+FROM node:14.16.1-alpine
 
-FROM node:14.16.1
 ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY ["package.json", "package-lock.json*", "./"]
+COPY package.json /app/
 
 RUN npm install --production
 
 COPY . .
+
+ENV PORT=3000
+
+EXPOSE ${PORT}
 
 CMD [ "node", "src/server/index.js" ]
